@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "EduCopilot-Api 文档",
   description: "EduCopilot 在线API文档地址",
+  base: '/EduCopilotApi/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
