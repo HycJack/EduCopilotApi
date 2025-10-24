@@ -24,6 +24,28 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
+    ],
+    footer: {
+      message: '本项目基于 MIT License 开源，欢迎使用和贡献。',
+      copyright: 'Copyright © 2025-present HycJack'
+    },
+
+
+    editLink: {
+      pattern: 'https://github.com/HycJack/EduCopilotApi/edit/main/docs/:path',
+      text: '在 GitHub 上编辑此页'
+    },
+
+    lastUpdated: {
+      text: '最后更新时间',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
+    },
+
+    search: {
+      provider: 'local'
+    },
   }
 })
