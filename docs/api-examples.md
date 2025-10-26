@@ -6,13 +6,8 @@ outline: deep
 
 Base URLs:
 
-* <a href="https://www.gxxuetu.cn">正式环境: https://www.gxxuetu.cn</a>
+* <a href="https://www.gxxuetu.cn">https://www.gxxuetu.cn</a>
 
-# Authentication
-
-# 试卷分析/config
-
-<a id="opIdgrade_ifno_v2_config_grade_ifno_get"></a>
 
 ## GET 获取年级和课程信息
 
@@ -23,7 +18,26 @@ GET /v2/config/grade_ifno
 > 200 Response
 
 ```json
-null
+[
+  {
+    "grade": "初中",
+    "subjects": [
+      "数学",
+      "物理",
+      "化学",
+      "生物"
+    ]
+  },
+  {
+    "grade": "高中",
+    "subjects": [
+      "数学",
+      "物理",
+      "化学",
+      "生物"
+    ]
+  }
+]
 ```
 
 ### 返回结果
@@ -31,10 +45,6 @@ null
 |状态码|状态码含义|说明|数据模型|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|Inline|
-
-### 返回数据结构
-
-# 试卷分析/questions
 
 <a id="opIdanalysis_v2_questions_analysis_post"></a>
 
@@ -47,9 +57,7 @@ POST /v2/questions/analysis
 ```yaml
 grade: ""
 subject: ""
-auto_detect: "true"
 image_urls: []
-cut_type: baidu
 images: ""
 
 ```
@@ -61,9 +69,7 @@ images: ""
 |body|body|object| 否 ||none|
 |» grade|body|string| 是 | Grade|none|
 |» subject|body|string| 是 | Subject|none|
-|» auto_detect|body|boolean| 否 | Auto Detect|none|
 |» image_urls|body|[string]| 否 | Image Urls|none|
-|» cut_type|body|string| 否 | Cut Type|none|
 |» images|body|[string]| 否 | Images|none|
 
 > 返回示例
@@ -194,26 +200,6 @@ images: ""
 |»» ValidationError|[ValidationError](#schemavalidationerror)|false|none|ValidationError|none|
 |»»» loc|[anyOf]|true|none|Location|none|
 
-*anyOf*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»»» *anonymous*|string|false|none||none|
-
-*or*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»»» *anonymous*|integer|false|none||none|
-
-*continued*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»» msg|string|true|none|Message|none|
-|»»» type|string|true|none|Error Type|none|
-
-<a id="opIdserve_file_v2_questions_download_doc__filename__get"></a>
 
 ## GET 获取推荐题目文档
 
@@ -252,27 +238,6 @@ null
 |»» ValidationError|[ValidationError](#schemavalidationerror)|false|none|ValidationError|none|
 |»»» loc|[anyOf]|true|none|Location|none|
 
-*anyOf*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»»» *anonymous*|string|false|none||none|
-
-*or*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»»» *anonymous*|integer|false|none||none|
-
-*continued*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»» msg|string|true|none|Message|none|
-|»»» type|string|true|none|Error Type|none|
-
-<a id="opIdserve_file_v2_questions_img__filename__get"></a>
-
 ## GET 获取图片
 
 GET /v2/questions/img/{filename}
@@ -310,99 +275,4 @@ null
 |»» ValidationError|[ValidationError](#schemavalidationerror)|false|none|ValidationError|none|
 |»»» loc|[anyOf]|true|none|Location|none|
 
-*anyOf*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»»» *anonymous*|string|false|none||none|
-
-*or*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»»» *anonymous*|integer|false|none||none|
-
-*continued*
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|»»» msg|string|true|none|Message|none|
-|»»» type|string|true|none|Error Type|none|
-
-# 数据模型
-
-<h2 id="tocS_HTTPValidationError">HTTPValidationError</h2>
-
-<a id="schemahttpvalidationerror"></a>
-<a id="schema_HTTPValidationError"></a>
-<a id="tocShttpvalidationerror"></a>
-<a id="tocshttpvalidationerror"></a>
-
-```json
-{
-  "detail": [
-    {
-      "loc": [
-        "string"
-      ],
-      "msg": "string",
-      "type": "string"
-    }
-  ]
-}
-
-```
-
-HTTPValidationError
-
-### 属性
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|detail|[[ValidationError](#schemavalidationerror)]|false|none|Detail|none|
-
-<h2 id="tocS_ValidationError">ValidationError</h2>
-
-<a id="schemavalidationerror"></a>
-<a id="schema_ValidationError"></a>
-<a id="tocSvalidationerror"></a>
-<a id="tocsvalidationerror"></a>
-
-```json
-{
-  "loc": [
-    "string"
-  ],
-  "msg": "string",
-  "type": "string"
-}
-
-```
-
-ValidationError
-
-### 属性
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|loc|[anyOf]|true|none|Location|none|
-
-anyOf
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|» *anonymous*|string|false|none||none|
-
-or
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|» *anonymous*|integer|false|none||none|
-
-continued
-
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|msg|string|true|none|Message|none|
-|type|string|true|none|Error Type|none|
 
