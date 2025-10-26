@@ -46,7 +46,12 @@ GET /v2/config/grade_ifno
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|Inline|
 
-<a id="opIdanalysis_v2_questions_analysis_post"></a>
+### 响应数据结构
+| 参数名   | 类型   | 可选值示例                   | 说明             |
+|----------|--------|------------------------------|------------------|
+| grade    | string | 初中 / 高中                   | 题目所属年级段   |
+| subject  | string | 数学 / 物理 / 化学 / 生物     | 题目所属学科     |
+
 
 ## POST 一键分析接口
 
@@ -54,23 +59,38 @@ POST /v2/questions/analysis
 
 > Body 请求参数
 
-```yaml
-grade: ""
-subject: ""
-image_urls: []
-images: ""
-
+类型 multipart/form-data
+```json
+  {
+    "grade": "",
+    "subject": "",
+    "image_urls": [],
+    "images": ""
+  }
 ```
 
 ### 请求参数
 
-|名称|位置|类型|必选|中文名|说明|
-|---|---|---|---|---|---|
-|body|body|object| 否 ||none|
-|» grade|body|string| 是 | Grade|none|
-|» subject|body|string| 是 | Subject|none|
-|» image_urls|body|[string]| 否 | Image Urls|none|
-|» images|body|[string]| 否 | Images|none|
+| 名称         | 位置 | 类型       | 必选 | 中文名     | 说明 |
+|--------------|------|------------|------|------------|------|
+| body         | body | object     | 否   | 请求主体   | 整个请求的主体对象 |
+| » grade      | body | string     | 是   | 年级       | 指定试题所属的年级段，例如“初中”或“高中” |
+| » subject    | body | string     | 是   | 学科       | 指定试题所属学科，例如“数学”“物理”“化学”“生物” |
+| » image_urls | body | [string]   | 否   | 题目图片URL | 题目中图片的在线链接，`image_urls` 和 `images` 二选一，如果同时存在，则以 `images` 为准 |
+| » images     | body | [string]   | 否   | 题目图片Base64 | 题目中图片的 Base64 编码内容，`image_urls` 和 `images` 二选一，如果同时存在，则以 `images` 为准 |
+
+
+> 请求示例
+  ```
+  curl -X 'POST' \
+    'http://124.222.20.138:8700/v2/questions/analysis' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: multipart/form-data' \
+    -F 'grade=高中' \
+    -F 'subject=数学' \
+    -F 'image_urls=' \
+    -F 'images=@WechatIMG3231.jpg;type=image/jpeg'
+  ```
 
 > 返回示例
 
@@ -165,30 +185,31 @@ images: ""
 
 状态码 **200**
 
-|名称|类型|必选|约束|中文名|说明|
-|---|---|---|---|---|---|
-|» code|integer|true|none||none|
-|» message|string|true|none||none|
-|» data|object|true|none||none|
-|»» analysis|object|true|none||none|
-|»»» weak_points|[object]|true|none||none|
-|»»»» weak_point_name|string|false|none||none|
-|»»»» data|[object]|false|none||none|
-|»»»»» weak_point_detail|string|false|none||none|
-|»»»»» num|[integer]|false|none||none|
-|»»»»» percent|string|false|none||none|
-|»»» advice|string|true|none||none|
-|»»» recommend|[object]|true|none||none|
-|»»»» text|string|false|none||none|
-|»»»» url|string|false|none||none|
-|»» files|[object]|true|none||none|
-|»»» url|string|false|none||none|
-|»»» qus_figure|[object]|false|none||none|
-|»»»» fig_location|object|false|none||none|
-|»»»»» points|[object]|true|none||none|
-|»»»»»» x|integer|true|none||none|
-|»»»»»» y|integer|true|none||none|
-|»»»» ocr_text|string|false|none||none|
+| 名称                      | 类型       | 必选  | 约束 | 中文名              | 说明 |
+|---------------------------|------------|-------|------|---------------------|------|
+| » code                    | integer    | true  | none | 状态码              | 接口返回状态码，0表示成功，其他为错误码 |
+| » message                 | string     | true  | none | 提示信息            | 接口返回的提示文字或错误信息 |
+| » data                    | object     | true  | none | 数据主体            | 接口返回的主要数据对象 |
+| »» analysis               | object     | true  | none | 学情分析            | 学情分析结果对象 |
+| »»» weak_points           | [object]   | true  | none | 弱项知识点列表            | 学生学习中需要提升的知识点列表 |
+| »»»» weak_point_name      | string     | false | none | 弱项知识点名称            | 知识点名称 |
+| »»»» data                 | [object]   | false | none | 弱项数据            | 与该弱项相关的详细数据集合 |
+| »»»»» weak_point_detail   | string     | false | none | 弱项描述            | 知识点详细说明 |
+| »»»»» num                 | [integer]  | false | none | 错题题目序号         | 错题题目序号 |
+| »»»»» percent             | string     | false | none | 占比                | 弱项在整体错题中的比例，如百分比字符串 |
+| »»» advice                | string     | true  | none | 学习建议            | 针对当前学情的改进意见或学习建议 |
+| »»» recommend             | [object]   | true  | none | 推荐题目            | 根据分析结果推荐的练习或资源列表 |
+| »»»» text                 | string     | false | none | 推荐文档标题            | 推荐文档标题 |
+| »»»» url                  | string     | false | none | 推荐题目文档链接            | 推荐题目文档访问链接 |
+| »» files                  | [object]   | true  | none | 图片列表            | 题目图片的列表 |
+| »»» url                   | string     | false | none | 图片链接            | 图片链接 |
+| »»» qus_figure            | [object]   | false | none | 题目图片信息        | 题目相关的图片及标注信息列表 |
+| »»»» fig_location         | object     | false | none | 图片位置            | 图片中标注内容的位置数据 |
+| »»»»» points              | [object]   | true  | none | 坐标点集合          | 标注位置的坐标点集合 |
+| »»»»»» x                  | integer    | true  | none | X坐标               | 坐标点的横向位置 |
+| »»»»»» y                  | integer    | true  | none | Y坐标               | 坐标点的纵向位置 |
+| »»»» ocr_text             | string     | false | none | OCR识别文字         | 图片中识别出的文字内容 |
+
 
 状态码 **422**
 
@@ -204,6 +225,9 @@ images: ""
 ## GET 获取推荐题目文档
 
 GET /v2/questions/download/doc/{filename}
+
+### 请求示例
+http://xxxxx/v2/questions/download/doc/109ab915-8578-47e4-86db-636c1245f7c8.pdf
 
 ### 请求参数
 
@@ -241,6 +265,9 @@ null
 ## GET 获取图片
 
 GET /v2/questions/img/{filename}
+
+### 请求示例
+http://xxxx/v2/questions/img/WechatIMG3231.jpg
 
 ### 请求参数
 
