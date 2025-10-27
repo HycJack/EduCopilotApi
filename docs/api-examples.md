@@ -83,11 +83,11 @@ POST /v2/questions/analysis
 > 请求示例
   ```
   curl -X 'POST' \
-    'http://124.222.20.138:8700/v2/questions/analysis' \
+    'http://xxxxx/v2/questions/analysis' \                    
     -H 'accept: application/json' \
-    -H 'Content-Type: multipart/form-data' \
+    -H 'Content-Type: multipart/form-data' \  
     -F 'grade=高中' \
-    -F 'subject=数学' \
+    -F 'subject=数学' \  
     -F 'image_urls=' \
     -F 'images=@WechatIMG3231.jpg;type=image/jpeg'
   ```
@@ -120,13 +120,13 @@ POST /v2/questions/analysis
       "recommend": [
         {
           "text": "题目下载",
-          "url": "http://124.222.20.138:8700/v2/questions/download/doc/109ab915-8578-47e4-86db-636c1245f7c8.pdf"
+          "url": "http://xxxxx/v2/questions/download/doc/109ab915-8578-47e4-86db-636c1245f7c8.pdf"    
         }
       ]
     },
     "files": [
       {
-        "url": "http://124.222.20.138:8700/v2/questions/img/WechatIMG3231.jpg",
+        "url": "http://xxxxx/v2/questions/img/WechatIMG3231.jpg",
         "qus_figure": [
           {
             "fig_location": {
