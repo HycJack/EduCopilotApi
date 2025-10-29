@@ -6,7 +6,7 @@ outline: deep
 
 Base URLs:
 
-* <a href="https://www.gxxuetu.cn">https://www.gxxuetu.cn</a>
+* https://www.gxxuetu.cn
 
 
 ## GET 获取年级和课程信息
