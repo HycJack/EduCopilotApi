@@ -26,8 +26,9 @@ POST /v2/ggb/genhtml
 | 名称          | 位置 | 类型       | 必选 | 中文名     | 说明 |
 |--------------|------|------------|------|------------|------|
 | body          | body | object     | 否   | 请求主体   | 整个请求的主体对象 |
-| » streaming       | body | boolean     | 是否   | 是否流式，默认非流式       | 流式输出结果 |
 | » question       | body | string     | 是   | 用户输入问题       | 用户输入内容 |
+| » streaming       | body | boolean     | 否   | 是否流式，默认非流式       | 流式输出结果 |
+| » callback      | body | string   | 否   | 回调地址 | 非流式输出时，为异步任务，通过传入的回调接口返回最终生成的课件链接 |
 | » file      | body | string   | 否   | 题目图片Base64 | 题目中图片的 Base64 编码内容 |
 
 
