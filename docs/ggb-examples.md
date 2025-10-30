@@ -28,9 +28,12 @@ POST /v2/ggb/genhtml
 | body          | body | object     | 否   | 请求主体   | 整个请求的主体对象 |
 | » question       | body | string     | 是   | 用户输入问题       | 用户输入内容 |
 | » streaming       | body | boolean     | 否   | 是否流式，默认非流式       | 流式输出结果 |
-| » callback      | body | string   | 否   | 回调地址 | 非流式输出时，为异步任务，通过传入的回调接口返回最终生成的课件链接 |
+| » callback      | body | string   | 否   | 回调地址 | 非流式输出时，为异步任务，通过传入的回调接口返回最终生成的课件链接（暂未实现） |
 | » file      | body | string   | 否   | 题目图片Base64 | 题目中图片的 Base64 编码内容 |
 
+### 字段说明表
+callback 需要调用方实现如下返回接口, url 为最终返回链接：
+  http://{yourdomain}/ggb/callback?url=xxxxxx
 
 > 请求示例
   ```
@@ -41,16 +44,6 @@ POST /v2/ggb/genhtml
     -F 'question=勾股定理' \
     -F 'gile=@WechatIMG3231.jpg;type=image/jpeg'
   ```
-
-
-
-### 字段说明表
-
-| 字段名   | 类型   | 必选 | 示例值              | 中文名        | 说明 |
-|----------|--------|------|---------------------|---------------|------|
-| event    | string | 是   | `"gen_ggb:end"`     | 事件标识      | 流程事件标识字符串，如 `gen_ggb:end` 完成 |
-| type     | string | 是   | `"success"`         | 返回状态      | 接口返回状态类型，`success` 表示成功， `info` 表示流式返回消息， `error` 表示失败 |
-| msg      | string | 是   | `"生成的HTML结果..."` | 返回信息      | 生成结果的主要内容，如 HTML 文本、分析结论等 |
 
 ---
 
@@ -75,6 +68,14 @@ POST /v2/ggb/genhtml
     "msg": "生成过程中发生错误：图片无法识别"
 }
 ```
+
+### 字段说明表
+
+| 字段名   | 类型   | 必选 | 示例值              | 中文名        | 说明 |
+|----------|--------|------|---------------------|---------------|------|
+| event    | string | 是   | `"gen_ggb:end"`     | 事件标识      | 流程事件标识字符串，如 `gen_ggb:end` 完成 |
+| type     | string | 是   | `"success"`         | 返回状态      | 接口返回状态类型，`success` 表示成功， `info` 表示流式返回消息， `error` 表示失败 |
+| msg      | string | 是   | `"生成的HTML结果..."` | 返回信息      | 生成结果的主要内容，如 HTML 文本、分析结论等 |
 
 
 > 422 Response
